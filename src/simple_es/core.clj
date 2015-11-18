@@ -8,3 +8,6 @@
 (defn replay [events]
   (reconstruct-from (rest events) (first events)))
 
+(defn events-for [aggregate-id events]
+  (filter #(= aggregate-id (:id %)) events))
+

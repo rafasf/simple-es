@@ -1,12 +1,17 @@
 (ns simple-es.core-test
   (:require [clojure.test :refer :all]
-            [simple-es.core :refer :all]))
+            [simple-es.core :refer :all]
+            [clojure.test.check.generators :as gen]))
 
-(with-test
-  (def events
-    [ { :name "one" :birth "1900-11-11" :last-name "two" :status "single" }
-      { :birth "1966-11-11" }
-      { :status "married" :last-name "three" } ])
+(def events
+  [ { :id "1" :name "one" :birth "1900-11-11" :last-name "two" :status "single" }
+    { :id "1" :birth "1966-11-11" }
+    { :id "1" :status "married" :last-name "three" }
+    { :id "2" :status "single" } ])
 
-  (is (= { :name "one" :birth "1966-11-11" :last-name "three" :status "married" }
-         (replay events))))
+(testing "events"
+  (deftest reconstructs-by-id
+    (is (= { :id "1" :name "one" :birth "1966-11-11" :last-name "three" :status "married" }
+           (replay (events-for "1" events)))))
+
+  )
