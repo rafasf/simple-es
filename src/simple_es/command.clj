@@ -1,9 +1,15 @@
 (ns simple-es.command
-  (:require [simple-es.event :as events]))
-
-(defn uuid [] (str (java.util.UUID/randomUUID)))
+  (:require [clj-uuid :as uuid]
+            [taoensso.timbre :as timbre]))
 
 (defn execute [command handlers]
-  (let [enhanced (assoc (second command) :id (uuid) :tid (uuid))]
-    ((first handlers) enhanced)
-    enhanced))
+  (if (contains? handlers (first command))
+    (let [command-name (first command)
+          handler (command-name handlers)]
+      (timbre/info "command(" (first command) ") tid(" (:transaction_id (second command)) ")")
+      (handler command)
+      command)
+    nil))
+
+(defn create [name body]
+  [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v1))])
