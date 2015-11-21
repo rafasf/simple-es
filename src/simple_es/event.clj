@@ -8,4 +8,3 @@
 
 (defn replay [events]
   (reconstruct-from (rest events) (first events)))
-

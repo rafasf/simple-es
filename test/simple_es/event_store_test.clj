@@ -21,5 +21,4 @@
     (let [clean-store (clean)
           events (take 5 (repeatedly (fn [] (store (an-event)))))
           an-event (rand-nth events)]
-      (is (= (given (:id an-event))
-             [an-event])))))
+      (is (= (given (:id an-event)) [an-event])))))

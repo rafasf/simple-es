@@ -1,7 +1,6 @@
 (ns simple-es.event-test
   (:require [clojure.test :refer :all]
-            [simple-es.event :refer :all]
-            [clojure.test.check.generators :as gen]))
+            [simple-es.event :refer :all]))
 
 (def events
   [ { :id "1" :name "one" :birth "1900-11-11" :last-name "two" :status "single" }
@@ -15,5 +14,4 @@
 (testing "events"
   (deftest reconstructs-by-id
     (is (= { :id "1" :name "one" :birth "1966-11-11" :last-name "three" :status "married" }
-           (replay (events-for "1" events)))))
-  )
+           (replay (events-for "1" events))))))

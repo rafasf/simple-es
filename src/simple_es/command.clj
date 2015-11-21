@@ -5,9 +5,9 @@
 (defn execute [command handlers]
   (if (contains? handlers (first command))
     (let [command-name (first command)
-          handler (command-name handlers)]
+          handle (command-name handlers)]
       (timbre/info "command(" (first command) ") tid(" (:transaction_id (second command)) ")")
-      (handler command)
+      (handle command)
       command)
     nil))
 

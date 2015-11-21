@@ -8,6 +8,8 @@
             [simple-es.event-store :as events]
             [clojure.test.check.generators :as gen]))
 
+;; Thinking out loud with code...
+;; Need a problem to solve :P
 (defn create-item []
   (gen/generate
     (gen/hash-map
