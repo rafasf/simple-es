@@ -12,4 +12,4 @@
     nil))
 
 (defn create [name body]
-  [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v1))])
+  [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v4))])

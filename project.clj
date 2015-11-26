@@ -7,4 +7,5 @@
                  [org.clojure/test.check "0.9.0"]
                  [clj-time "0.11.0"]
                  [com.taoensso/timbre "4.1.4"]
-                 [danlentz/clj-uuid "0.1.6"]])
+                 [danlentz/clj-uuid "0.1.6"]]
+  :main simple-es.main)
