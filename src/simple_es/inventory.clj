@@ -21,3 +21,7 @@
         current-item (events/replay (events/given (:item-id action)))
         change-type (if (> (:price current-item) (:price action)) :item-price-decreased :item-price-increased)]
     (events/store (events/create-from action change-type))))
+
+(def handlers {
+               :add-item add-item-handler
+               :change-item-price change-price-handler })

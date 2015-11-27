@@ -25,3 +25,8 @@
       (is (instance? java.util.UUID (:id (second command))))
       (is (instance? java.util.UUID (:transaction_id (second command)))))))
 
+(testing "handler"
+  (deftest creates-handler
+    (let [handle (command/build-handler handlers)
+          handled (handle (command/create :other { :description "blah" }))]
+      (is (= :other (first handled))))))

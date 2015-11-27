@@ -11,5 +11,8 @@
       command)
     nil))
 
+(defn build-handler [handlers]
+  (fn [command] (execute command handlers)))
+
 (defn create [name body]
   [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v4))])
