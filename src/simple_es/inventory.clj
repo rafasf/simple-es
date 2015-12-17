@@ -8,6 +8,9 @@
 
 (defstruct item :id :description :price :last_change)
 
+(defn with-type [item]
+  (assoc item :type :inventory))
+
 (defn add [item]
   (command/create :add-item item))
 
@@ -15,13 +18,13 @@
   (command/create :change-item-price {:item-id item-id :price new-price}))
 
 (defn add-item-handler [command]
-  (store/save (events/create-from (second command) :item-added)))
+  (store/save (with-type (events/create-from (second command) :item-added))))
 
 (defn change-price-handler [command]
   (let [action (second command)
         current-item (events/replay (store/find-with-id (:item-id action)))
         change-type (if (> (:price current-item) (:price action)) :item-price-decreased :item-price-increased)]
-    (store/save (events/create-from action change-type))))
+    (store/save (with-type (events/create-from action change-type)))))
 
 (def handlers {
                :add-item add-item-handler
