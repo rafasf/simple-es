@@ -18,10 +18,11 @@
   (command/create :change-item-price {:item-id item-id :price new-price}))
 
 (defn add-item-handler [command]
-  (store/save (with-type (events/create-from (second command) :item-added))))
+  (println command)
+  (store/save (with-type (events/create-from command :item-added))))
 
 (defn change-price-handler [command]
-  (let [action (second command)
+  (let [action command
         current-item (events/replay (store/find-with-id (:item-id action)))
         change-type (if (> (:price current-item) (:price action)) :item-price-decreased :item-price-increased)]
     (store/save (with-type (events/create-from action change-type)))))

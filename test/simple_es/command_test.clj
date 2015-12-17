@@ -11,7 +11,7 @@
   (deftest executes-command
     (let [command (command/create :create-item { :name "cake" :price 3.69 })]
       (command/execute command handlers)
-      (is (= command (first @fake-store)))))
+      (is (= (second command) (first @fake-store)))))
 
   (deftest ignores-command-if-handler-does-not-exist
     (let [command (command/create "some-command" {})
