@@ -2,6 +2,7 @@
   (:require [clj-uuid :as uuid]
             [simple-es.command :as commands]
             [simple-es.event :as events]
+            [simple-es.store :as store]
             [simple-es.inventory :as inventory]))
 
 (def handle (commands/build-handler inventory/handlers))
@@ -12,4 +13,4 @@
     (handle (inventory/change-price plate-id 13.99))
     (handle (inventory/change-price plate-id 12.99))
     (handle (inventory/change-price plate-id 16.99))
-    (clojure.pprint/pprint (events/all))))
+    (clojure.pprint/pprint (store/all))))
