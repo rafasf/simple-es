@@ -4,7 +4,7 @@
             [simple-es.event :as events]
             [simple-es.inventory :as inventory]))
 
-(def issue (commands/build-handler inventory/handlers))
+(def issue (commands/build-issuer-considering inventory/handlers))
 
 (defn -main [& args]
   (let [{mug-id :id} (second (issue (inventory/add { :description "Mug" :price 3.12 })))

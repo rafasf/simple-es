@@ -5,13 +5,15 @@
 (def fake-store (atom []))
 (def handlers
   { :create-item (fn [command] (swap! fake-store conj command))
-    :other (fn [command] (swap! fake-store conj "fail")) })
+    :other (fn [command] (swap! fake-store conj { :id "meh" :f_2 "fail" })) })
 
-(testing "command execution and effects"
+(testing "execution"
   (deftest executes-command
-    (let [command (command/create :create-item { :name "cake" :price 3.69 })]
+    (let [command (command/create :create-item { :name "cake" :price 3.69 })
+          payload (second command)]
       (command/execute command handlers)
-      (is (= (second command) (first @fake-store)))))
+      (is (= [payload]
+             (filter #(= (:id payload) (:id %)) @fake-store)))))
 
   (deftest ignores-command-if-handler-does-not-exist
     (let [command (command/create "some-command" {})
@@ -20,13 +22,13 @@
 
 (testing "command creation"
   (deftest create-with-additional-info
-    (let [command (command/create "do-something" { :field_1 "value 1" :field_2 "value 2" })]
-      (is (= :do-something (first command)))
-      (is (instance? java.util.UUID (:id (second command))))
-      (is (instance? java.util.UUID (:transaction_id (second command)))))))
+    (let [[command payload] (command/create "do-something" { :field_1 "value 1" :field_2 "value 2" })]
+      (is (= :do-something command))
+      (is (instance? java.util.UUID (:id payload)))
+      (is (instance? java.util.UUID (:transaction_id payload))))))
 
-(testing "handler"
-  (deftest creates-handler
-    (let [handle (command/build-handler handlers)
-          handled (handle (command/create :other { :description "blah" }))]
-      (is (= :other (first handled))))))
+(testing "issuer"
+  (deftest builds-issuer-considering-many-handlers
+    (let [issuer (command/build-issuer-considering handlers)
+          [command-name payload] (issuer (command/create :other { :description "blah" }))]
+      (is (= :other command-name)))))
