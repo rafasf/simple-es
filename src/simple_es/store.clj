@@ -11,9 +11,6 @@
 (defn find-with-id [id]
   (filter #(= id (:id %)) @all-things))
 
-(defn find-with-item-id [id]
-  (filter #(= id (:item-id %)) @all-things))
-
 (defn all [] @all-things)
 
 (defn clean []
