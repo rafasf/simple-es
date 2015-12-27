@@ -23,5 +23,5 @@
 (testing "event creation"
   (deftest creates-with-metadata
     (let [event (create-from { :f1 "v1" } :item-added)]
-     (is (= :item-added (:fact event)))
-     (is (instance? java.lang.Long (:timestamp event))))))
+     (is (= :item-added (:_fact event)))
+     (is (instance? java.lang.Long (:_timestamp event))))))

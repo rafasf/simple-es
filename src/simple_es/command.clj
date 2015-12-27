@@ -6,7 +6,7 @@
   (contains? handlers command-name))
 
 (defn handle [payload command-name handle]
-  (timbre/info "command(" command-name ") tid(" (:transaction_id payload) ")")
+  (timbre/info "command(" command-name ") tid(" (:_transaction_id payload) ")")
   (handle payload)
   [command-name payload])
 
@@ -21,5 +21,5 @@
 
 (defn create [name body]
   (if (contains? body :id)
-    [(keyword name) (assoc body :transaction_id (uuid/v4))]
-    [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v4))]))
+    [(keyword name) (assoc body :_transaction_id (uuid/v4))]
+    [(keyword name) (assoc body :id (uuid/v1) :_transaction_id (uuid/v4))]))

@@ -25,7 +25,7 @@
     (let [[command payload] (command/create "do-something" { :field_1 "value 1" :field_2 "value 2" })]
       (is (= :do-something command))
       (is (instance? java.util.UUID (:id payload)))
-      (is (instance? java.util.UUID (:transaction_id payload)))))
+      (is (instance? java.util.UUID (:_transaction_id payload)))))
 
   (deftest keeps-id-if-provided
     (let [[command payload] (command/create "do-something" {:id "provided" :field1 "value 1"})]

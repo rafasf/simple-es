@@ -13,8 +13,8 @@
 
 (defn create-from [action fact]
   (assoc action
-         :fact fact
-         :timestamp (tc/to-long (t/now))))
+         :_fact fact
+         :_timestamp (tc/to-long (t/now))))
 
 (defn states-of [events]
   (letfn [(all-states-of [events progression]
