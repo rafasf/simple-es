@@ -15,15 +15,14 @@
   (command/create :add-item item))
 
 (defn change-price [item-id new-price]
-  (command/create :change-item-price {:item-id item-id :price new-price}))
+  (command/create :change-item-price {:id item-id :price new-price}))
 
 (defn add-item-handler [command]
-  (println command)
   (store/save (with-type (events/create-from command :item-added))))
 
 (defn change-price-handler [command]
   (let [action command
-        current-item (events/replay (store/find-with-id (:item-id action)))
+        current-item (events/replay (store/find-with-id (:id action)))
         change-type (if (> (:price current-item) (:price action)) :item-price-decreased :item-price-increased)]
     (store/save (with-type (events/create-from action change-type)))))
 

@@ -20,4 +20,6 @@
   (fn [command] (execute command handlers)))
 
 (defn create [name body]
-  [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v4))])
+  (if (contains? body :id)
+    [(keyword name) (assoc body :transaction_id (uuid/v4))]
+    [(keyword name) (assoc body :id (uuid/v1) :transaction_id (uuid/v4))]))
