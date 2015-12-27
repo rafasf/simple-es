@@ -15,3 +15,10 @@
   (assoc action
          :fact fact
          :timestamp (tc/to-long (t/now))))
+
+(defn states-of [events]
+  (letfn [(all-states-of [events progression]
+            (if (empty? events)
+              progression
+              (recur (rest events) (conj progression (merge (last progression) (first events))))))]
+    (all-states-of events [])))
