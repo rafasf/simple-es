@@ -6,7 +6,7 @@
   (contains? handlers command-name))
 
 (defn handle [payload command-name handle]
-  (timbre/info "command(" command-name ") tid(" (:_transaction_id payload) ")")
+  (timbre/info "command=" command-name ", tid=" (:_transaction_id payload))
   (handle payload)
   [command-name payload])
 
